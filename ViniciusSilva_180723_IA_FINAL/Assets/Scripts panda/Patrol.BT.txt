@@ -1,0 +1,10 @@
+tree("Root")
+	sequence							// siga a sequência
+		PickDestination (-100, 55)		// direção pré-definida
+		MoveToDestination				// vá para a direção pré-definida
+		PickDestination (55, -80)
+		MoveToDestination
+		PickDestination (-80, 10)
+		MoveToDestination
+		PickDestination (10, -100)
+		MoveToDestination

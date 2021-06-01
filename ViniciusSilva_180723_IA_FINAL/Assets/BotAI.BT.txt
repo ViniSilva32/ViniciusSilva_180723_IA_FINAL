@@ -1,0 +1,30 @@
+tree("Root")									// Raiz
+	parallel									// Utilize paralelamente
+		repeat mute tree("Patrol")				// Repita a árvore Patrol
+		repeat mute tree("Dead")				// Repita a árvore Dead
+
+tree("Patrol")									// Patrulhe
+	fallback									// Volte para trás
+		tree("Attack")							// Ative a função de ataque
+		while IsHealthLessThan(40.0)			// Verifica a quantidade de Vida que resta ao BOT
+			fallback							// Volte para trás
+				tree("Wander")					// Caminhe
+
+tree("Attack")
+	while SeePlayer								// Enquanto estiver com o player no campo de visão
+		sequence								// Siga a sequência
+			TargetPlayer						// Mire no player
+			LookAtTarget						// Olhe para o player
+			Wait(0.5)							// Espere 0.5 segundos
+			Fire								// Após o tempo de espera atire no player
+
+tree("Dead")									// Morre
+	sequence									// Siga a sequência
+		IsHealthLessThan(0.1)					// Se a vida do BOT for menor que 0.1
+		Explode									// BOT Explode
+
+tree("Wander")									// Caminhe
+	sequence									// Siga a sequência
+		PickRandomDestination					// Escolha um ponto aleatório do mapa
+		MoveToDestination						// Siga até o ponto escolhido
+	

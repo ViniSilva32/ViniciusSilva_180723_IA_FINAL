@@ -1,0 +1,5 @@
+tree("Root")
+	sequence
+		PickRandomDestination	// escolha uma direção aleatória
+		MoveToDestination		// vá para a direção escolhida
+	

@@ -1,0 +1,9 @@
+tree("Root")
+	Sequence					// siga a sequência
+		random(5,1,1,1)			// chance de selecionar cada posição
+			Turn(90.0)
+			Turn(-90.0)
+			Turn(145.0)			// posições aleatórias
+			Turn(-27.0)
+		LookAtTarget			//	olhe para o alvo
+		WaitRandom(1.0,1.0)		// espere por outro comando aleatório			

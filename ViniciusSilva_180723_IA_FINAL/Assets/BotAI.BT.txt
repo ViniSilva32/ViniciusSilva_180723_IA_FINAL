@@ -15,7 +15,7 @@ tree("Attack")
 		sequence								// Siga a sequência
 			TargetPlayer						// Mire no player
 			LookAtTarget						// Olhe para o player
-			Wait(0.5)							// Espere 0.5 segundos
+			Wait(0.05)							// Espere 0.5 segundos
 			Fire								// Após o tempo de espera atire no player
 
 tree("Dead")									// Morre

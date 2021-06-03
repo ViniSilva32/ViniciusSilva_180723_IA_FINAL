@@ -34,7 +34,7 @@ public class Drive : MonoBehaviour {
             bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward*2000);
         }
 
-        if(health <= 0)
+        if(health <= 0)                     //verifica a quantidade de vida do player
         {
             health = 100;
             transform.position = respawn.position;
@@ -47,11 +47,11 @@ public class Drive : MonoBehaviour {
             health -= 10;
         }
     }
-    public void Damege(float damage)
+    public void Damege(float damage)        //ao explodir da dano no player
     {
         health -= damage;
     }
-    public void Heal(float heal)
+    public void Heal(float heal)            //ao explodir cura o player
     {
         health += heal;
     }

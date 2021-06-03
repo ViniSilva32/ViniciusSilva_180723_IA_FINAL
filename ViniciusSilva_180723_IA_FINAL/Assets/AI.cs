@@ -143,14 +143,14 @@ public class AI : MonoBehaviour
         return true;
     }
     [Task]
-    public void Perseguir() // persegue o player
+    public void Perseguir()                         // persegue o player
     {
         agent.SetDestination(player.position);
         Task.current.Succeed();
 
     }
     [Task]
-    public void Kaboom()
+    public void Kaboom()                            //chama aexplosão ao se aproximar do player
     {
         if (Vector3.Distance(transform.position, player.position) < boomRange)
         {
@@ -166,7 +166,7 @@ public class AI : MonoBehaviour
         }
     }
     [Task]
-    public void Heal()
+    public void Heal()                              //chama a cura ao se aproximar do player
     {
         if (Vector3.Distance(transform.position, player.position) < boomRange)
         {

@@ -7,43 +7,45 @@ using Panda;
 
 public class AI : MonoBehaviour
 {
-    public Transform player;
-    public Transform bulletSpawn;
-    public Slider healthBar;   
-    public GameObject bulletPrefab;
+    public Transform player;            //player
+    public Transform bulletSpawn;       //de onde sai o tiro
+    public Slider healthBar;            //barra de vida
+    public GameObject bulletPrefab;     //prefeb do disparo
 
-    NavMeshAgent agent;
-    public Vector3 destination; // The movement destination.
-    public Vector3 target;      // The position to aim to.
-    float health = 100.0f;
-    float rotSpeed = 5.0f;
+    NavMeshAgent agent;                 //agente
+    public Vector3 destination;         //destino ao qual o bot vai
+    public Vector3 target;              //alvo do bot
+    float health = 100.0f;              //vida total
+    float rotSpeed = 5.0f;              //velocidade de rotação
 
-    float visibleRange = 80.0f;
-    float shotRange = 40.0f;
+    float visibleRange = 80.0f;         //distancia de visão
+    float shotRange = 40.0f;            //distancia do tiro
+    float boomRange = 20.0f;            //distancia para explodir
+    public LayerMask playerlayer;
 
     void Start()
     {
         agent = this.GetComponent<NavMeshAgent>();
-        agent.stoppingDistance = shotRange - 5; //for a little buffer
-        InvokeRepeating("UpdateHealth",5,0.5f);
+        agent.stoppingDistance = shotRange - 5;
+        InvokeRepeating("UpdateHealth", 5, 0.5f);
     }
 
     void Update()
     {
         Vector3 healthBarPos = Camera.main.WorldToScreenPoint(this.transform.position);
         healthBar.value = (int)health;
-        healthBar.transform.position = healthBarPos + new Vector3(0,60,0);
+        healthBar.transform.position = healthBarPos + new Vector3(0, 60, 0);
     }
 
-    void UpdateHealth()
+    void UpdateHealth()         //se a vida for menor que 100, após um tempo sem levar danos seguidos ela se recupera
     {
-       if(health < 100)
-        health ++;
+        if (health < 100)
+            health++;
     }
 
-    void OnCollisionEnter(Collision col)
+    void OnCollisionEnter(Collision col)        //se identificado o impacto com um objeto com a tag bullet, é descontado 10 pontos da healthbar
     {
-        if(col.gameObject.tag == "bullet")
+        if (col.gameObject.tag == "bullet")
         {
             health -= 10;
         }
@@ -73,7 +75,7 @@ public class AI : MonoBehaviour
         Task.current.Succeed();
 
     }
-    // --- 17/05/2021 ---
+
     [Task]
     public void TargetPlayer()  //mira no player
     {
@@ -139,6 +141,45 @@ public class AI : MonoBehaviour
         Destroy(healthBar.gameObject);
         Destroy(this.gameObject);
         return true;
+    }
+    [Task]
+    public void Perseguir() // persegue o player
+    {
+        agent.SetDestination(player.position);
+        Task.current.Succeed();
+
+    }
+    [Task]
+    public void Kaboom()
+    {
+        if (Vector3.Distance(transform.position, player.position) < boomRange)
+        {
+            Collider[] playerhit = Physics.OverlapSphere(transform.position, 100f, playerlayer);
+
+            foreach (Collider players in playerhit)
+            {
+                Drive drive = players.GetComponent<Drive>();
+                drive.Damege (90f);
+            }
+            Destroy(healthBar.gameObject);
+            Destroy(this.gameObject);
+        }
+    }
+    [Task]
+    public void Heal()
+    {
+        if (Vector3.Distance(transform.position, player.position) < boomRange)
+        {
+            Collider[] playerhit = Physics.OverlapSphere(transform.position, 100f, playerlayer);
+
+            foreach (Collider players in playerhit)
+            {
+                Drive drive = players.GetComponent<Drive>();
+                drive.Heal(90f);
+            }
+            Destroy(healthBar.gameObject);
+            Destroy(this.gameObject);
+        }
     }
 }
 

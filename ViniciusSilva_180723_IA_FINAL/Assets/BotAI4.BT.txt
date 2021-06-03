@@ -8,17 +8,13 @@ tree("Patrol")									// Patrulhe
 		tree("Attack")							// Ative a função de ataque
 		while IsHealthLessThan(40.0)			// Verifica a quantidade de Vida que resta ao BOT
 			fallback							// Volte para trás
-				tree("Wander")					// Caminhe
+				tree("Wander")					// Caminhe		
 
 tree("Attack")
 	while SeePlayer								// Enquanto estiver com o player no campo de visão
 		sequence								// Siga a sequência
-			TargetPlayer						// Mire no player
-			Turn(45.0)							// vire na direção -45
-			Wait(-0.9)							// espere
-			Fire								// atire
-			LookAtTarget						// olhe para o alvo
-			WaitRandom(-0.3,-0.3)				// espere
+			Perseguir							//persegue o player
+			Kaboom								//Explode
 
 tree("Dead")									// Morre
 	sequence									// Siga a sequência

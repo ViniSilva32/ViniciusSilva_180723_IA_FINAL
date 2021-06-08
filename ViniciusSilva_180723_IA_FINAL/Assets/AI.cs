@@ -154,15 +154,15 @@ public class AI : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, player.position) < boomRange)
         {
-            Collider[] playerhit = Physics.OverlapSphere(transform.position, 100f, playerlayer);
+            Collider[] playerhit = Physics.OverlapSphere(transform.position, 100f, playerlayer); // range da explosão
 
             foreach (Collider players in playerhit)
             {
                 Drive drive = players.GetComponent<Drive>();
                 drive.Damege (90f);
             }
-            Destroy(healthBar.gameObject);
-            Destroy(this.gameObject);
+            Destroy(healthBar.gameObject);      //destroi a barra de vida 
+            Destroy(this.gameObject);           //destroi o player
         }
     }
     [Task]
@@ -170,14 +170,14 @@ public class AI : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, player.position) < boomRange)
         {
-            Collider[] playerhit = Physics.OverlapSphere(transform.position, 100f, playerlayer);
+            Collider[] playerhit = Physics.OverlapSphere(transform.position, 100f, playerlayer); // distancia da cura
 
-            foreach (Collider players in playerhit)
+            foreach (Collider players in playerhit)     //detecção de colisão com player
             {
                 Drive drive = players.GetComponent<Drive>();
-                drive.Heal(90f);
+                drive.Heal(90f);        // quantidade de cura que o player recebe
             }
-            Destroy(healthBar.gameObject);
+            Destroy(healthBar.gameObject);  
             Destroy(this.gameObject);
         }
     }
